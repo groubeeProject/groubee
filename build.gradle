@@ -10,6 +10,11 @@ plugins {
 group 'com.gig'
 version '1.0-SNAPSHOT'
 
+/**
+ * querydsl 버전.
+ */
+ext.querydslVersion = '4.3.1'
+
 ext["hibernate.version"] = "5.4.5.Final"
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -30,6 +35,10 @@ subprojects {
     apply plugin: 'io.spring.dependency-management'
 
     configurations {
+        developmentOnly
+        runtimeClasspath {
+            extendsFrom developmentOnly
+        }
         compileOnly {
             extendsFrom annotationProcessor
         }
@@ -120,4 +129,55 @@ project(':platform-app-api') {
         compile project(':platform-site-core')
         providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     }
+}
+
+
+def querydslProjects = [
+        project(':platform-site-core')
+]
+
+/**
+ * QueryDsl
+ */
+configure(querydslProjects) {
+
+    //https://github.com/ewerk/gradle-plugins/tree/master/querydsl-plugin
+
+    apply plugin: "io.spring.dependency-management"
+
+    /**
+     * 생성될 Q-클래스 경로.
+     */
+    def querydslDir = "$buildDir/generated/querydsl"
+
+    /**
+     * querydsl 의존성.
+     * annotation processor 설정.
+     */
+    dependencies {
+        implementation "com.querydsl:querydsl-jpa:${querydslVersion}"
+        implementation "com.querydsl:querydsl-sql:${querydslVersion}"
+        annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
+        annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
+        annotationProcessor "com.querydsl:querydsl-apt:${querydslVersion}:jpa"  /*Q-클래스 생성.*/
+    }
+
+    /**
+     * 생성될 Q-클래스 경로 등록
+     */
+    sourceSets {
+        main.java.srcDir querydslDir
+    }
+    compileJava{
+        options.incremental = true
+        options.annotationProcessorGeneratedSourcesDirectory(project.file(querydslDir))
+    }
+
+    /**
+     * 생성된 Q-클래스 까지 삭제.
+     */
+    clean {
+        delete file(querydslDir)
+    }
+
 }
