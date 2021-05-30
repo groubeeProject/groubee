@@ -1,0 +1,2 @@
+rootProject.name = 'groubee'
+include 'platform-site-core', 'platform-app-admin', 'platform-app-api'
