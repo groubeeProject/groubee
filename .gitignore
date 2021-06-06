@@ -43,4 +43,4 @@ build/
 ### NPM ###
 
 ### NPM ###
-platform-app-admin-console/src/main/resources/static/node_modules
+platform-app-admin/src/main/resources/static/node_modules

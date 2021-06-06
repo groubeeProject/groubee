@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{layout}">
+<body>
+<div th:fragment="left">
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4" th:with="URL = ${#httpServletRequest.requestURI}">
+        <!-- Brand Logo -->
+        <a href="/" class="brand-link logo-switch">
+            <img src="/node_modules/admin-lte/dist/img/AdminLTELogo.png" alt="AdminLTE Docs Logo Small" class="brand-image-xl logo-xs">
+            <img src="/node_modules/admin-lte/dist/img/AdminLTELogo.png" alt="AdminLTE Docs Logo Large" class="brand-image-xs logo-xl" style="left: 20px">
+            <span style="position : absolute; left: 62px;">GROUBEE</span>
+        </a>
+
+
+        <!-- Sidebar -->
+        <div class="sidebar" th:with="UrlArray = ${#strings.arraySplit(URL, '/')}">
+
+
+            <!-- Sidebar Menu -->
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" th:with="path = ${UrlArray.length > 0 ? '/' + UrlArray[0] : ''}">
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+        </div>
+        <!-- /.sidebar -->
+    </aside>
+</div>
+</body>
+</html>

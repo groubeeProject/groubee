@@ -1,0 +1,24 @@
+spring:
+  profiles:
+    active: local
+  main:
+    allow-bean-definition-overriding: true
+
+
+server:
+  servlet:
+    timeout: 3600
+  error:
+    path: /error
+    whitelabel:
+      enabled: false
+  tomcat:
+    remote-ip-header: x-forwarded-for
+    protocol-header: x-forwarded-proto
+  use-forward-headers: true
+
+## log 를 통해 출력
+logging.level:
+  org.hibernate.SQL: debug
+#  org.hibernate.type: trace
+

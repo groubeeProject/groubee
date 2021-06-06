@@ -1,2 +1,3 @@
 rootProject.name = 'groubee'
-include 'platform-site-core', 'platform-app-admin', 'platform-app-api'
+include 'platform-site-core', 'platform-app-admin', 'platform-app-api', 'platform-site-common'
+
