@@ -5,13 +5,12 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum MenuType {
+public enum ModifyType {
 
-    AdminConsole("adminConsole", "관리자"),
-    Web("web", "웹"),
-    App("app", "어플"),
-    Api("api", "api"),
-    OAuth2("oauth2", "oauth2");
+    Register("register", "등록"),
+    Modify("modify", "수정"),
+    Remove("remove", "삭제"),
+    Clear("clear", "초기화");
 
     final private String type;
     final private String description;

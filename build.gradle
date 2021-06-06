@@ -46,18 +46,23 @@ subprojects {
 
     dependencies {
 
+        /**
+         * Spring
+         */
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
         implementation 'org.springframework.boot:spring-boot-devtools'
-
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
         implementation 'org.springframework.boot:spring-boot-starter-validation'
-
         implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-security'
+        implementation 'org.springframework.security:spring-security-oauth2-client'
+        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
         /**
          * DB
          */
         runtimeOnly 'com.h2database:h2'
+        compile 'mysql:mysql-connector-java'
 
         /**
          * lombok
@@ -70,6 +75,35 @@ subprojects {
          */
         implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
         implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+        implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+
+
+        /**
+         * Etc
+         */
+        implementation 'joda-time:joda-time'
+        implementation 'org.jadira.usertype:usertype.core:6.0.1.GA'
+        implementation 'com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20190325.1'
+        implementation 'org.apache.commons:commons-lang3:3.7'
+        implementation "org.apache.commons:commons-text:1.6"
+        implementation "org.apache.commons:commons-compress:1.18"
+        implementation 'com.googlecode.json-simple:json-simple:1.1'
+        implementation 'org.modelmapper:modelmapper:2.3.6'
+        compile group: 'commons-codec', name: 'commons-codec', version: '1.5'
+        compile group: 'com.mortennobel', name: 'java-image-scaling', version: '0.8.5'
+
+        /**
+         * File
+         */
+        implementation 'com.google.code.gson:gson:2.8.2'
+        implementation 'commons-fileupload:commons-fileupload:1.4'
+        implementation 'org.apache.tika:tika-core:1.18'
+
+        /**
+         * AWS
+         */
+        implementation 'com.amazonaws:aws-java-sdk-s3:1.11.228'
+        implementation 'com.amazonaws:aws-java-sdk-ses:1.11.228'
 
         /**
          * Test
