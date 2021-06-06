@@ -19,4 +19,6 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
     Optional<List<Role>> findByRoleNameLikeOrderByLevelAsc(String roleNames);
 
     Optional<Role> findByRoleNameLike(String roleName);
+
+    Optional<Role> findByRoleName(String roleName);
 }

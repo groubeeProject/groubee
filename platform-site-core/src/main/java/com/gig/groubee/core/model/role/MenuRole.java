@@ -22,4 +22,9 @@ public class MenuRole extends BaseEntity {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
     private Role role;
+
+    public MenuRole(Menu m, Role r) {
+        this.menu = m;
+        this.role = r;
+    }
 }

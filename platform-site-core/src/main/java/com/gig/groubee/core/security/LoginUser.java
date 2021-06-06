@@ -2,9 +2,11 @@ package com.gig.groubee.core.security;
 
 import com.gig.groubee.core.dto.menu.MenuDto;
 import com.gig.groubee.core.model.AbstractUser;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -16,6 +18,9 @@ public class LoginUser extends User {
 
     private AbstractUser loginUser;
     private List<MenuDto> menus;
+
+    @Getter
+    private LocalDateTime menuLastLoadedAt;
 
     public LoginUser(String username, String password, Collection<? extends GrantedAuthority> authorities, AbstractUser loginUser) {
         super(username, password == null ? "" : password, authorities);
@@ -36,7 +41,8 @@ public class LoginUser extends User {
         return menus;
     }
 
-    public void setMenus(List<MenuDto> menus) {
+    public void setMenus(List<MenuDto> menus, LocalDateTime loadedAt) {
         this.menus = menus;
+        this.menuLastLoadedAt = loadedAt;
     }
 }

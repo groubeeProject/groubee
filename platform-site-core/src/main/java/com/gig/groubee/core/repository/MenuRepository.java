@@ -53,7 +53,7 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
             "and r.roleName in :roles")
     List<Menu> getTopMenu(@Param("menuType") MenuType menuType, @Param("roles") List<String> roles, Sort sort);
 
-    @Query("select distinct m from Menu m inner join fetch m.roles r where m.menuType =:menuType and r.roleName in (:roles) " +
+    @Query("select distinct m from Menu m inner join fetch m.menuRoles r where m.menuType =:menuType and r.role.roleName in (:roles) " +
             " and m.activeYn='Y' and m.deleteYn='N' and m.displayYn='Y' " +
             " order by m.parent.menuId, m.sortOrder desc, m.menuId")
     List<Menu> getAllDisplayMenus(@Param("menuType") MenuType menuType, @Param("roles") List<String> roles);

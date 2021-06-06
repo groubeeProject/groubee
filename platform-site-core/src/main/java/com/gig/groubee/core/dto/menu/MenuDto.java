@@ -3,6 +3,7 @@ package com.gig.groubee.core.dto.menu;
 import com.gig.groubee.core.dto.role.MenuRoleDto;
 import com.gig.groubee.core.dto.role.RoleDto;
 import com.gig.groubee.core.model.Menu;
+import com.gig.groubee.core.model.role.Role;
 import com.gig.groubee.core.types.AntMatcherType;
 import com.gig.groubee.core.types.MenuType;
 import com.gig.groubee.core.types.YNType;
@@ -13,6 +14,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,5 +71,35 @@ public class MenuDto {
         this.menuType = m.getMenuType();
 
         this.roles = m.getMenuRoles().stream().map(MenuRoleDto::new).collect(Collectors.toList());
+    }
+
+    public MenuDto(Menu menu, boolean makeChildren) {
+        this(menu);
+        if (makeChildren && menu.getChildren() != null) {
+            for (Menu c : menu.getChildren()) {
+                if (c.getDeleteYn() == YNType.N)
+                    this.children.add(new MenuDto(c, true));
+            }
+        }
+    }
+
+    /**
+     * @param menu
+     * @param roles
+     * @param checkActive 액티브 유무 확인
+     */
+    public MenuDto(Menu menu, Collection<Role> roles, boolean checkActive) {
+        this(menu);
+        if (menu.getChildren() != null) {
+            for (Menu c : menu.getChildren()) {
+                if (checkActive && c.getActiveYn() == YNType.N) continue;
+                if (c.getDisplayYn() == YNType.N) continue;
+
+                long cnt = roles.stream().filter(r -> c.getMenuRoles().contains(r)).count();
+                if (cnt > 0) {
+                    this.children.add(new MenuDto(c, roles, checkActive));
+                }
+            }
+        }
     }
 }

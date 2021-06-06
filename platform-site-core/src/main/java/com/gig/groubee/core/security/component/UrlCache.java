@@ -5,6 +5,7 @@ import com.gig.groubee.core.repository.MenuRepository;
 import com.gig.groubee.core.types.AntMatcherType;
 import com.gig.groubee.core.types.MenuType;
 import com.gig.groubee.core.types.YNType;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.ConfigAttribute;
@@ -14,6 +15,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -29,6 +31,12 @@ import java.util.stream.Collectors;
 public class UrlCache extends LinkedHashMap<RequestMatcher, Collection<ConfigAttribute>> {
 
     private final MenuRepository menuRepository;
+
+    /**
+     * 마지막 로드된 시간
+     */
+    @Getter
+    private LocalDateTime lastLoadedAt = LocalDateTime.now();
 
     /**
      * 권한이 변경될경우 호출해야 함.

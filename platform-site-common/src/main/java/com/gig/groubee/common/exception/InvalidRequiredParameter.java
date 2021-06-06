@@ -1,5 +1,8 @@
 package com.gig.groubee.common.exception;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 /**
  * @author : Jake
  * @date : 2021-06-06

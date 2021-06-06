@@ -2,10 +2,7 @@ package com.gig.groubee.core.model.role;
 
 import com.gig.groubee.core.model.BaseEntity;
 import com.gig.groubee.core.types.YNType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
@@ -14,7 +11,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "role_tb")
-@Getter
+@Getter @Setter
 @SuperBuilder
 @NoArgsConstructor @AllArgsConstructor
 public class Role extends BaseEntity {
@@ -28,7 +25,7 @@ public class Role extends BaseEntity {
     @Builder.Default
     private Set<RolePrivilege> privileges = new HashSet<>();
 
-    @Column(length = 20)
+    @Column(length = 20, unique = true)
     private String roleName;
 
     private String description;
@@ -46,5 +43,9 @@ public class Role extends BaseEntity {
      */
     @Column
     private int level = 99;
+
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
+    @Builder.Default
+    private Set<MenuRole> menuRoles = new HashSet<>();
 
 }
