@@ -1,19 +1,18 @@
 package com.gig.groubee.core.security;
 
-import com.gig.groubee.core.service.AdminService;
-import com.gig.groubee.core.service.LogService;
-import com.gig.groubee.core.service.MemberService;
-import com.gig.groubee.core.service.UserService;
-import com.gig.groubee.core.types.YNType;
+import com.gig.groubee.common.service.UserService;
 import com.gig.groubee.core.util.CommonUtils;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -26,25 +25,15 @@ import java.io.IOException;
  */
 @Component
 @Slf4j
-@NoArgsConstructor
-public class AbstractAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+@RequiredArgsConstructor
+public abstract class AbstractAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     final int SESSION_TIMEOUT = 60 * 60; //1시간
 
-    private LogService logService;
-    private UserService userService;
-
-    public AbstractAuthenticationSuccessHandler(AdminService userService, LogService logService) {
-        this.userService = userService;
-        this.logService = logService;
-    }
-
-    public AbstractAuthenticationSuccessHandler(MemberService userService, LogService logService) {
-        this.userService = userService;
-        this.logService = logService;
-    }
+    private final UserService userService;
+    private RequestCache requestCache = new HttpSessionRequestCache();
+    private RedirectStrategy redirectStratgy = new DefaultRedirectStrategy();
 
     @Override
-    @Transactional
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
         super.onAuthenticationSuccess(request, response, authentication);
         request.getSession().setMaxInactiveInterval(SESSION_TIMEOUT);
@@ -54,12 +43,14 @@ public class AbstractAuthenticationSuccessHandler extends SavedRequestAwareAuthe
             username = user.getUsername();
         }
         String clientIp = CommonUtils.getClientIP(request);
-
-        /**
-         * TODO USER-AGENT 를 이용한 OS 정보
-         */
-        userService.loginSuccess(clientIp, username, null);
-//        logService.saveLoginLog(username, clientIp, YNType.Y, null);
+        this.onAuthenticationSuccess(username, clientIp);
+        this.saveLoginLog(username, clientIp, "Y");
     }
+
+    private void onAuthenticationSuccess(String username, String clientIp) {
+        userService.loginSuccess(clientIp, username);
+    }
+
+    public abstract void saveLoginLog(String username, String clientIp, String loginSuccess);
 }
 

@@ -2,9 +2,10 @@ package com.gig.groubee.core.service;
 
 import com.gig.groubee.common.exception.AlreadyEntity;
 import com.gig.groubee.common.exception.NotFoundException;
+import com.gig.groubee.common.service.UserService;
+import com.gig.groubee.common.types.ModifyType;
 import com.gig.groubee.core.dto.member.MemberDto;
 import com.gig.groubee.core.model.Member;
-import com.gig.groubee.core.types.ModifyType;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,7 +21,7 @@ public class MemberService implements UserService<Member, MemberDto> {
     }
 
     @Override
-    public void loginSuccess(String clientIp, String username, String os) {
+    public void loginSuccess(String clientIp, String username) {
 
     }
 
@@ -45,7 +46,7 @@ public class MemberService implements UserService<Member, MemberDto> {
     }
 
     @Override
-    public MemberDto findByIdToDto(Long id) throws NotFoundException {
+    public MemberDto getUserToDto(Long id) throws NotFoundException {
         return null;
     }
 }
