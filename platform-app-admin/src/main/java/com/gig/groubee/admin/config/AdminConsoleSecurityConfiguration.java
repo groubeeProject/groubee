@@ -4,23 +4,15 @@ import com.gig.groubee.admin.security.AdminAuthenticationProvider;
 import com.gig.groubee.admin.security.AuthenticationFailureHandlerImpl;
 import com.gig.groubee.admin.security.AuthenticationSuccessHandlerImpl;
 import com.gig.groubee.core.security.AbstractSecurityConfiguration;
-import com.gig.groubee.core.security.component.GFFilterInvocationSecurityMetadataSource;
 import com.gig.groubee.core.service.AdminService;
-import com.gig.groubee.core.types.MenuType;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  * @author : Jake

@@ -1,6 +1,5 @@
 package com.gig.groubee.core.service;
 
-import com.gig.groubee.common.types.LoginServiceType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

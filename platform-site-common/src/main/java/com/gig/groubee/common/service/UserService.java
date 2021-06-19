@@ -1,8 +1,8 @@
-package com.gig.groubee.common.service;
+package com.gig.groubee.core.service;
 
 import com.gig.groubee.common.exception.AlreadyEntity;
 import com.gig.groubee.common.exception.NotFoundException;
-import com.gig.groubee.common.types.ModifyType;
+import com.gig.groubee.core.types.ModifyType;
 
 /**
  * @author : Jake
@@ -15,12 +15,7 @@ public interface UserService<T, V> {
      */
     void addPasswordFailCnt(String username);
 
-    /**
-     * 로그인 성공
-     * @param clientIp
-     * @param username
-     */
-    void loginSuccess(String clientIp, String username);
+    void loginSuccess(String clientIp, String username, String os);
 
     /**
      * 패스워드 틀린 횟수 초기화
@@ -56,5 +51,5 @@ public interface UserService<T, V> {
      */
     T getUser(String username) throws NotFoundException;
 
-    V getUserToDto(Long id) throws NotFoundException;
+    V findByIdToDto(Long id) throws NotFoundException;
 }
