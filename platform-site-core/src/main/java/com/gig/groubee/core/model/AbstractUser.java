@@ -1,5 +1,6 @@
 package com.gig.groubee.core.model;
 
+import com.gig.groubee.common.model.IUser;
 import com.gig.groubee.core.types.YNType;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,11 +11,12 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Random;
+import java.util.Set;
 
 @MappedSuperclass
 @Getter @Setter
 @DynamicInsert @DynamicUpdate
-public abstract class AbstractUser {
+public abstract class AbstractUser implements IUser {
 
     @Column(unique = true)
     protected String username;
@@ -158,6 +160,12 @@ public abstract class AbstractUser {
     private String lastModifier;
 
     public abstract Long getId();
+
+    public abstract Set<Role> getRoles();
+
+    public abstract void addRole(Role role);
+
+    public abstract void removeRole(Role role);
 
     @NotNull
     @Column(updatable = false)

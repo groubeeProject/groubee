@@ -1,7 +1,6 @@
 package com.gig.groubee.core.security;
 
-import com.gig.groubee.core.service.UserService;
-import com.gig.groubee.core.util.CommonUtils;
+import com.gig.groubee.common.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.*;

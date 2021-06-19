@@ -4,8 +4,7 @@ import com.gig.groubee.common.exception.AccountNotConfirmedException;
 import com.gig.groubee.common.exception.NotFoundException;
 import com.gig.groubee.core.dto.menu.MenuDto;
 import com.gig.groubee.core.model.Admin;
-import com.gig.groubee.core.model.role.AdminRole;
-import com.gig.groubee.core.model.role.Role;
+import com.gig.groubee.core.model.Role;
 import com.gig.groubee.core.security.LoginUser;
 import com.gig.groubee.core.security.component.UrlCache;
 import com.gig.groubee.core.service.AdminService;
@@ -28,15 +27,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author : Jake
- * @date : 2021-06-07
+ * 사용자 상세정보 서비스
+ *
+ * @author prographer
+ * @date 2019-04-09
  */
-@Slf4j
-@Qualifier("adminUserDetailsService")
 @Service
+@Qualifier("adminUserDetailsService")
+@Slf4j
 @RequiredArgsConstructor
 public class AdminUserDetailsServiceImpl implements UserDetailsService {
-
     private final AdminService adminService;
     private final MenuService menuService;
     private final MenuType menuType = MenuType.AdminConsole;
@@ -64,10 +64,8 @@ public class AdminUserDetailsServiceImpl implements UserDetailsService {
         //user.setPassword("{SHA-512}" + user.getPassword());
 
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for (AdminRole r : admin.getRoles()) {
-            if (r.getRole() != null) {
-                authorities.add(new SimpleGrantedAuthority(r.getRole().getRoleName()));
-            }
+        for (Role r : admin.getRoles()) {
+            authorities.add(new SimpleGrantedAuthority(r.getRoleName()));
         }
 
         boolean enabled = true;
@@ -125,4 +123,5 @@ public class AdminUserDetailsServiceImpl implements UserDetailsService {
         //log.debug(">>>>>>>>>Menu End: " + ((System.currentTimeMillis() - start) / 1000) + "s");
         return loginUser;
     }
+
 }

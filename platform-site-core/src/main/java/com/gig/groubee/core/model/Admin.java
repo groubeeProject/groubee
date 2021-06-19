@@ -1,6 +1,5 @@
 package com.gig.groubee.core.model;
 
-import com.gig.groubee.core.model.role.AdminRole;
 import com.gig.groubee.core.types.YNType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,9 +23,14 @@ public class Admin extends AbstractUser {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ADMIN_SEQ")
     private Long adminId;
 
-    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
-    @OrderBy("role.level desc, role.sortOrder asc")
-    private Set<AdminRole> roles = new HashSet<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "admin_role",
+            joinColumns = @JoinColumn(name = "admin_id"),
+            inverseJoinColumns = @JoinColumn(name = "role")
+    )
+    @OrderBy("level desc, sortOrder asc")
+    private Set<Role> roles = new HashSet<>();
 
     /**
      * 2-Factor 인증 대상자
@@ -46,11 +50,14 @@ public class Admin extends AbstractUser {
         return this.adminId;
     }
 
-    public void addRole(AdminRole role) {
+    @Override
+    public void addRole(Role role) {
         this.roles.add(role);
+
     }
 
-    public void removeRole(AdminRole role) {
+    @Override
+    public void removeRole(Role role) {
         this.roles.remove(role);
     }
 }

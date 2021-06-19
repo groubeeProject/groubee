@@ -1,6 +1,5 @@
 package com.gig.groubee.core.dto.role;
 
-import com.gig.groubee.core.model.role.MenuRole;
 import lombok.Getter;
 import lombok.Setter;
 

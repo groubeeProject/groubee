@@ -3,7 +3,7 @@ package com.gig.groubee.core.service;
 import com.gig.groubee.common.exception.AlreadyEntity;
 import com.gig.groubee.common.exception.NotFoundException;
 import com.gig.groubee.core.dto.role.RoleExpendDto;
-import com.gig.groubee.core.model.role.Role;
+import com.gig.groubee.core.model.Role;
 import com.gig.groubee.core.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;

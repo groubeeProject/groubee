@@ -1,4 +1,4 @@
-package com.gig.groubee.core.model.role;
+package com.gig.groubee.core.model;
 
 import com.gig.groubee.core.model.BaseEntity;
 import com.gig.groubee.core.types.YNType;
@@ -21,9 +21,13 @@ public class Role extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ROLE_SEQ")
     private Long roleId;
 
-    @OneToMany(mappedBy = "privilege", cascade = CascadeType.ALL)
-    @Builder.Default
-    private Set<RolePrivilege> privileges = new HashSet<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "ROLE_PRIVILEGE",
+            joinColumns = @JoinColumn(name = "ROLE"),
+            inverseJoinColumns = @JoinColumn(name = "PRIVILEGE")
+    )
+    private Set<Privilege> privileges = new HashSet<>();
 
     @Column(length = 20, unique = true)
     private String roleName;
@@ -44,8 +48,20 @@ public class Role extends BaseEntity {
     @Column
     private int level = 99;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "roles")
     @Builder.Default
-    private Set<MenuRole> menuRoles = new HashSet<>();
+    private Set<Menu> menus = new HashSet<>();
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Role) {
+            return this.roleName.equals(((Role) obj).getRoleName());
+        } else
+            return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.roleName.hashCode();
+    }
 }

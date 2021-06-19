@@ -1,9 +1,8 @@
 package com.gig.groubee.core.dto.menu;
 
 import com.gig.groubee.core.dto.role.MenuRoleDto;
-import com.gig.groubee.core.dto.role.RoleDto;
 import com.gig.groubee.core.model.Menu;
-import com.gig.groubee.core.model.role.Role;
+import com.gig.groubee.core.model.Role;
 import com.gig.groubee.core.types.AntMatcherType;
 import com.gig.groubee.core.types.MenuType;
 import com.gig.groubee.core.types.YNType;

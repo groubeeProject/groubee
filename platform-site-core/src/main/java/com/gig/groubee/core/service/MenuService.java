@@ -5,9 +5,7 @@ import com.gig.groubee.common.exception.NotFoundException;
 import com.gig.groubee.core.dto.menu.MenuDto;
 import com.gig.groubee.core.dto.role.RoleDto;
 import com.gig.groubee.core.model.Menu;
-import com.gig.groubee.core.model.role.AdminRole;
-import com.gig.groubee.core.model.role.MenuRole;
-import com.gig.groubee.core.model.role.Role;
+import com.gig.groubee.core.model.Role;
 import com.gig.groubee.core.repository.MenuRepository;
 import com.gig.groubee.core.types.AntMatcherType;
 import com.gig.groubee.core.types.MenuType;
@@ -149,13 +147,10 @@ public class MenuService {
         /*
           최 상단 메뉴 추가시 Default Role 추가
          */
-        if (menu.getMenuRoles().size() == 0 && menu.getParent() == null && defaultRole != null) {
+        if (menu.getRoles().size() == 0 && menu.getParent() == null && defaultRole != null) {
             Role role = roleService.findByRoleName(defaultRole);
-            MenuRole menuRole = new MenuRole(menu, role);
-
-            menu.getMenuRoles().add(menuRole);
-            // 저장 안될 시 save 추가
-            // role.getMenus().add(menu);
+            menu.getRoles().add(role);
+            role.getMenus().add(menu);
         }
 
         menuRepository.save(menu);
@@ -182,15 +177,12 @@ public class MenuService {
 
     @Transactional
     public void allModifyChildrenMenu(Menu menu, Role role, ModifyType modifyType) throws NotFoundException {
-        MenuRole menuRole = new MenuRole(menu, role);
-
         if (modifyType == ModifyType.Register) {
-            menu.getMenuRoles().add(menuRole);
-            role.getMenuRoles().add(menuRole);
+            menu.getRoles().add(role);
+            role.getMenus().add(menu);
         } else {
-            menu.getMenuRoles().remove(menuRole);
-            role.getMenuRoles().remove(menu);
-            // role.getMenus().remove(menu);
+            menu.getRoles().remove(role);
+            role.getMenus().remove(menu);
         }
         for (Menu m : menu.getChildren()) {
             allModifyChildrenMenu(m, role, modifyType);
@@ -224,8 +216,7 @@ public class MenuService {
     @Transactional
     public void allChangeMenuRole(long menuId, List<RoleDto> roles) throws NotFoundException {
         Menu menu = getMenu(menuId);
-
-        menu.setMenuRoles(new HashSet<>());
+        menu.setRoles(new HashSet<>());
 
         for (RoleDto dto : roles) {
             Role role = roleService.findByRoleName(dto.getRoleName());
@@ -282,14 +273,8 @@ public class MenuService {
      * @throws NotFoundException
      */
     @Transactional(readOnly = true)
-    public List<MenuDto> getMenuHierarchyByRoles(MenuType menuType, Set<AdminRole> roles, boolean includeNonActive) {
-        List<String> roleNames = new ArrayList<>();
-
-        for (AdminRole adminRole : roles) {
-            roleNames.add(adminRole.getRole().getRoleName());
-        }
-
-        List<Menu> allDisplayMenus = menuRepository.getAllDisplayMenus(menuType, roleNames);
+    public List<MenuDto> getMenuHierarchyByRoles(MenuType menuType, Set<Role> roles, boolean includeNonActive) {
+        List<Menu> allDisplayMenus = menuRepository.getAllDisplayMenus(menuType, roles.stream().map(Role::getRoleName).collect(Collectors.toList()));
         List<MenuDto> hierarchy = new ArrayList<>();
         HashMap<Long, MenuDto> menuMap = new HashMap<>();
         for (Menu m : allDisplayMenus) {

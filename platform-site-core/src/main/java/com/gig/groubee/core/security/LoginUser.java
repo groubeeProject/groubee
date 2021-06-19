@@ -1,5 +1,6 @@
 package com.gig.groubee.core.security;
 
+import com.gig.groubee.common.model.IUser;
 import com.gig.groubee.core.dto.menu.MenuDto;
 import com.gig.groubee.core.model.AbstractUser;
 import lombok.Getter;
@@ -15,12 +16,11 @@ import java.util.List;
  * @date : 2021-06-06
  */
 public class LoginUser extends User {
-
-    private AbstractUser loginUser;
+    private IUser loginUser;
     private List<MenuDto> menus;
-
     @Getter
     private LocalDateTime menuLastLoadedAt;
+
 
     public LoginUser(String username, String password, Collection<? extends GrantedAuthority> authorities, AbstractUser loginUser) {
         super(username, password == null ? "" : password, authorities);
@@ -28,18 +28,19 @@ public class LoginUser extends User {
     }
 
     public LoginUser(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired,
-                     boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities, AbstractUser loginUser) {
+                     boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities, IUser loginUser) {
         super(username, password == null ? "" : password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
         this.loginUser = loginUser;
     }
 
-    public AbstractUser getLoginUser() {
+    public IUser getLoginAccount() {
         return loginUser;
     }
 
     public List<MenuDto> getMenus() {
         return menus;
     }
+
 
     public void setMenus(List<MenuDto> menus, LocalDateTime loadedAt) {
         this.menus = menus;

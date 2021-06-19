@@ -1,7 +1,7 @@
 package com.gig.groubee.core.repository;
 
 import com.gig.groubee.core.model.Menu;
-import com.gig.groubee.core.model.role.Role;
+import com.gig.groubee.core.model.Role;
 import com.gig.groubee.core.types.MenuType;
 import com.gig.groubee.core.types.YNType;
 import org.springframework.data.domain.Sort;

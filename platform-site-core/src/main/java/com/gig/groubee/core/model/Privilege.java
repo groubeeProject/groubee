@@ -1,4 +1,4 @@
-package com.gig.groubee.core.model.role;
+package com.gig.groubee.core.model;
 
 import lombok.Getter;
 import lombok.Setter;

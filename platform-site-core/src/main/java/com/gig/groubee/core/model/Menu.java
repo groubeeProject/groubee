@@ -1,11 +1,12 @@
 package com.gig.groubee.core.model;
 
-import com.gig.groubee.core.model.role.MenuRole;
 import com.gig.groubee.core.types.AntMatcherType;
 import com.gig.groubee.core.types.MenuType;
 import com.gig.groubee.core.types.YNType;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,6 +17,8 @@ import java.util.Set;
 @Entity
 @Table(name = "menu_tb")
 @Getter @Setter
+@DynamicUpdate
+@DynamicInsert
 @SuperBuilder
 @NoArgsConstructor @AllArgsConstructor
 public class Menu extends BaseEntity {
@@ -64,9 +67,14 @@ public class Menu extends BaseEntity {
     @Builder.Default
     private List<Menu> children = new ArrayList<>();
 
-    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "menu_role",
+            joinColumns = @JoinColumn(name = "menu_id"),
+            inverseJoinColumns = @JoinColumn(name = "role")
+    )
     @Builder.Default
-    private Set<MenuRole> menuRoles = new HashSet<>();
+    private Set<Role> roles = new HashSet<>();
 
 
     /**

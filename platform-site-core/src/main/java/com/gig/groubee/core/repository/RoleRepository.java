@@ -1,6 +1,6 @@
 package com.gig.groubee.core.repository;
 
-import com.gig.groubee.core.model.role.Role;
+import com.gig.groubee.core.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

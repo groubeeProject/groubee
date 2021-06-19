@@ -1,6 +1,6 @@
 package com.gig.groubee.core.dto.role;
 
-import com.gig.groubee.core.model.role.Role;
+import com.gig.groubee.core.model.Role;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
