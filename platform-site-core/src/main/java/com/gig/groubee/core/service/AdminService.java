@@ -52,7 +52,7 @@ public class AdminService implements UserService<Admin, AdminDto> {
     }
 
     @Override
-    public AdminDto getUserToDto(Long id) throws NotFoundException {
+    public AdminDto findByIdToDto(Long id) throws NotFoundException {
         return null;
     }
 }

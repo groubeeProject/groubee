@@ -67,7 +67,7 @@ public class UrlCache extends LinkedHashMap<RequestMatcher, Collection<ConfigAtt
             if (m.getActiveYn() == YNType.N) {
                 this.put(new AntPathRequestMatcher(url), Collections.singletonList(new SecurityConfig("ROLE_NO_PERMIT")));
             } else {
-                this.put(new AntPathRequestMatcher(url), m.getMenuRoles().stream().map(r -> new SecurityConfig(r.getRole().getRoleName())).collect(Collectors.toList()));
+                this.put(new AntPathRequestMatcher(url), m.getRoles().stream().map(r -> new SecurityConfig(r.getRoleName())).collect(Collectors.toList()));
             }
             if (m.getChildren() != null && m.getChildren().size() > 0) {
                 putData(m.getChildren());

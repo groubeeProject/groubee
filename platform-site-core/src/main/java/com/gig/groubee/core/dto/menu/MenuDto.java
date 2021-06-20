@@ -1,6 +1,6 @@
 package com.gig.groubee.core.dto.menu;
 
-import com.gig.groubee.core.dto.role.MenuRoleDto;
+import com.gig.groubee.core.dto.role.RoleDto;
 import com.gig.groubee.core.model.Menu;
 import com.gig.groubee.core.model.Role;
 import com.gig.groubee.core.types.AntMatcherType;
@@ -48,7 +48,7 @@ public class MenuDto {
     private List<MenuDto> children = new ArrayList<>();
 
     @Builder.Default
-    private List<MenuRoleDto> roles = new ArrayList<>();
+    private List<RoleDto> roles = new ArrayList<>();
 
     @Builder.Default
     private String activeClass = "";
@@ -69,7 +69,7 @@ public class MenuDto {
         this.antMatcherType = m.getAntMatcherType();
         this.menuType = m.getMenuType();
 
-        this.roles = m.getMenuRoles().stream().map(MenuRoleDto::new).collect(Collectors.toList());
+        this.roles = m.getRoles().stream().map(RoleDto::new).collect(Collectors.toList());
     }
 
     public MenuDto(Menu menu, boolean makeChildren) {
@@ -94,7 +94,7 @@ public class MenuDto {
                 if (checkActive && c.getActiveYn() == YNType.N) continue;
                 if (c.getDisplayYn() == YNType.N) continue;
 
-                long cnt = roles.stream().filter(r -> c.getMenuRoles().contains(r)).count();
+                long cnt = roles.stream().filter(r -> c.getRoles().contains(r)).count();
                 if (cnt > 0) {
                     this.children.add(new MenuDto(c, roles, checkActive));
                 }

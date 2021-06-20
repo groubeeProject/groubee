@@ -1,5 +1,6 @@
 package com.gig.groubee.core.service;
 
+import com.gig.groubee.common.types.LoginServiceType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -41,5 +42,10 @@ public class LogService {
 //            log.error(e.getMessage(), e);
 //        }
 
+    }
+
+    @Transactional
+    public void saveLoginLog(LoginServiceType loginServiceType, String username, String clientIp, String loginSuccess) {
+        this.saveLoginLog(loginServiceType, username, clientIp, loginSuccess, null);
     }
 }
